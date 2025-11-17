@@ -1,0 +1,22 @@
+{} -> 0
+{0} -> 1
+{0, 1} -> 2
+{0, 1, 2} -> 3
+a, b -> add -> c:
+    a -> c
+    for i in b:
+        c + {c} -> c
+a, b -> sub -> c:
+    0 -> c
+    while not b = a:
+        c + {c} -> c
+        b + {b} -> b
+a, g -> check -> r:
+    if a = g:
+        'OK' -> r
+    else:
+        'Error' -> r
+1, 2 -> add -> sum 
+3, 2 -> sub -> diff
+sum, 3 -> check -> writeln
+diff, 1 -> check -> writeln
