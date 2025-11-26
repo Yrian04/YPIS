@@ -2,25 +2,42 @@ parser grammar ToyLangParser;
 options { tokenVocab=ToyLangLexer; }
 
 program
-    : (statement | NEWLINE)* EOF
+    : vars? subprograms? body?
+    ;
+
+vars
+    : (assignment NEWLINE | NEWLINE)+
+    ;
+
+subprograms
+    : (subprogram | NEWLINE)+
+    ;
+
+body
+    : (statement | NEWLINE)+
     ;
 
 subprogram
-    : in_params? ID out_params? COLON NEWLINE block
+    : in_params? ID out_params? COLON block
     ;
 
 statement
-    : simple_statement
+    : simple_statement (SEMICOLON simple_statement)* SEMICOLON? (NEWLINE | EOF)
     | compound_statement
     ;
 
 simple_statement
-    : assignment
-    | PASS
+    : assignment 
+    | call 
+    | PASS  
     ;
 
 assignment
-    : expr ARROW ID
+    : ID EQUAL expr
+    ;
+
+call
+    : (expr (COMMA expr)*)? ARROW ID (ARROW ID (COMMA ID)*)?
     ;
 
 compound_statement
@@ -28,7 +45,6 @@ compound_statement
     | for_
     | while_
     | until_
-    | subprogram
     ;
 
 if_
@@ -51,23 +67,7 @@ until_
 
 block
     : simple_statement
-    | NEWLINE INDENT statement+ DEDENT
-    ;
-
-call
-    : call_in_params? ID subcall* call_out_params?
-    ;
-
-subcall
-    : ARROW call_in_params ID
-    ;
-
-call_in_params
-    : expr (COMMA expr)* ARROW
-    ;
-
-call_out_params
-    : ARROW expr (COMMA expr)*
+    | NEWLINE INDENT statement+  DEDENT
     ;
 
 expr
@@ -85,12 +85,11 @@ atom
     ;
 
 literal
-    : STRING
-    | set
-    | bool
+    : set_
+    | bool_
     ;
 
-set
+set_
     : LBRACE atom (COMMA atom)* RBRACE
     | emptySet
     | uniSet
@@ -104,7 +103,7 @@ out_params
     : ARROW ID (COMMA ID)*
     ;
 
-bool
+bool_
     : TRUE
     | FALSE
     ;
@@ -123,6 +122,7 @@ conditionalOperator
 
 elementOperator
     : IN
+    | NOT_IN
     ;
 
 comparisonOperator
@@ -142,6 +142,10 @@ logicalOperator
 
 unaryOperator
     : NOT
+    ;
+
+funcOperator
+    : ARROW
     ;
 
 emptySet

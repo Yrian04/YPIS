@@ -11,6 +11,7 @@ OUT : 'out' ;
 DO : 'do' ;
 FOR : 'for' ;
 IN : 'in' ;
+NOT_IN: 'not in' ;
 WHILE : 'while' ;
 UNTIL : 'until' ;
 IF : 'if' ;
@@ -19,25 +20,26 @@ ELSE : 'else' ;
 TRUE  : 'true' ;
 FALSE : 'false' ;
 PASS : 'pass' ;
+// logical operators
+NOT : 'not' ;
+AND : 'and' ;
+OR : 'or' ;
+XOR : 'xor' ;
 // set operators
 UNION : '+' ;
 INTERSECTION : '*' ;
 CARTESIAN : '@' ;
 DIFFERENCE : '\\' ;
 // comparison operators
-EQ : '=' ;
+EQ : '==' ;
 NE : '<>' ;
 GT : '>' ;
 LT : '<' ;
 GE : '>=' ;
 LE : '<=' ;
-// logical operators
-NOT : 'not' ;
-AND : 'and' ;
-OR : 'or' ;
-XOR : 'xor' ;
 //
 ARROW : '->' ;
+EQUAL : '=' ;
 // punctuation
 COLON : ':' ;
 SEMICOLON : ';' ;
@@ -54,13 +56,8 @@ NEWLINE: ({self.atStartOfInput()}? SPACES | ( '\r'? '\n' | '\r' | '\f') SPACES?)
 
 ID: [a-zA-Z_0-9]+ ;
 
-STRING
-    : '\'' (~['\r\n\\] | '\\' .)* '\''
-    | '"' (~["\r\n\\] | '\\' .)* '"'
-    ;
-
 SKIP_: ( SPACES | COMMENT ) -> skip;
     
 fragment SPACES: [ \t]+;
 
-fragment COMMENT: '//' ~[\r\n\f]*;
+fragment COMMENT: '#' ~[\r\n\f]*;

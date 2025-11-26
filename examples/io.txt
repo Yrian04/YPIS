@@ -1,20 +1,19 @@
+s = {}
+r = false
 a, b -> superset -> r, err:
     if a > b:
-        a -> r 
+        r = a 
     elif a < b:
-        b -> r 
+        r = b 
     else:
-        {} -> r 
-        true -> err
+        r = {} 
+        err = true
 s, err -> output:
     if err:
-        'Sets are incomparable' -> writeln
+        err -> writeln
     else:
-        'Superset:' -> write
         s -> writeln
-prompt -> read_with_prompt -> value:
-    prompt -> write
-    readln -> value
-'Enter the first set: ' -> read_with_prompt -> str_to_set -> s1
-'Enter the second set: ' -> read_with_prompt -> str_to_set -> s2   
-s1, s2 -> superset -> output
+-> read_set -> s1
+-> read_set -> s2   
+s1, s2 -> superset -> s, r
+s, r -> output

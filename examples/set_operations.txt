@@ -1,12 +1,11 @@
-      {'a', 'b', 'c'} -> s1
-      {'a', '1', '2'} -> s2
-                   {} -> empty
-                 {..} -> universum
-              s1 + s2 -> union           // {'a', 'b', 'c', '1', '2'}
-              s1 * s2 -> intersection    // {'a'}
-              s1 @ s2 -> product         // {{{'a'}, {'a', 'a'}}, {{'b'}, {'b', 'a'}}, {{'c'}, {'c', 'a'}},
-                                         //  {{'a'}, {'a', '1'}}, {{'b'}, {'b', '1'}}, {{'c'}, {'c', '1'}},
-                                         //  {{'a'}, {'a', '2'}}, {{'b'}, {'b', '2'}}, {{'c'}, {'c', '2'}}}
-              s1 \ s2 -> difference      // {'b', 'c'}
-(s1 \ s2) + (s2 \ s1) -> simm_difference // {'b', 'c', '1', '2'}
-            'a' + 'b' -> ab              // 'ab'
+s1 = {a, b, c}       
+s2 = {a, 1, 2}       
+empty = {}                    
+universum = {..}                  
+union = s1 + s2                           # {a, b, c, 1, 2}
+intersection = s1 * s2                    # {a}
+product = s1 @ s2                         # {{{a}, {a, a}}, {{b}, {b, a}}, {{c}, {c, a}},
+                                          #  {{a}, {a, 1}}, {{b}, {b, 1}}, {{c}, {c, 1}},
+                                          #  {{a}, {a, 2}}, {{b}, {b, 2}}, {{c}, {c, 2}}}
+difference = s1 \ s2                      # {b, c}
+simm_difference = (s1 \ s2) + (s2 \ s1)   # {b, c, 1, 2}
